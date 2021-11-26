@@ -1,0 +1,2 @@
+extends KinematicCharacter2D
+

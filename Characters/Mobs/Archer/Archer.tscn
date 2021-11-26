@@ -1,0 +1,38 @@
+[gd_scene load_steps=7 format=2]
+
+[ext_resource path="res://Characters/Mobs/Archer/Archer.gd" type="Script" id=1]
+[ext_resource path="res://Characters/Mobs/Archer/Art/Archer.png" type="Texture" id=2]
+[ext_resource path="res://Utils/AwarenessZone.gd" type="Script" id=3]
+[ext_resource path="res://Characters/Mobs/Archer/Projectile.tscn" type="PackedScene" id=4]
+
+[sub_resource type="RectangleShape2D" id=1]
+
+[sub_resource type="CircleShape2D" id=2]
+radius = 323.373
+
+[node name="Archer" type="KinematicBody2D"]
+script = ExtResource( 1 )
+Arrow = ExtResource( 4 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+rotation = 0.785398
+shape = SubResource( 1 )
+
+[node name="Sprite" type="Sprite" parent="."]
+texture = ExtResource( 2 )
+
+[node name="AwarenessZone" type="Area2D" parent="."]
+script = ExtResource( 3 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AwarenessZone"]
+shape = SubResource( 2 )
+
+[node name="ShotTimer" type="Timer" parent="."]
+
+[node name="Bow" type="Position2D" parent="."]
+position = Vector2( 20.7603, 0 )
+rotation = 0.000849063
+
+[connection signal="body_entered" from="AwarenessZone" to="." method="_on_AwarenessZone_body_entered"]
+[connection signal="body_exited" from="AwarenessZone" to="." method="_on_AwarenessZone_body_exited"]
+[connection signal="timeout" from="ShotTimer" to="." method="_on_ShotTimer_timeout"]
