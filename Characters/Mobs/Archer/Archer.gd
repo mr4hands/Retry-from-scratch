@@ -1,6 +1,6 @@
 extends KinematicBody2D
 
-onready var obj = get_parent().get_node("Warrior")
+onready var obj = get_parent().get_node("Hero")
 export (PackedScene) var Arrow
 onready var shot_timer = $ShotTimer
 

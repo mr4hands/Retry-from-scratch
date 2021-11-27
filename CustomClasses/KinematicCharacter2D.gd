@@ -1,12 +1,15 @@
 extends KinematicBody2D
 class_name KinematicCharacter2D
 
-
+var state_machine
 var velocity = Vector2.ZERO
 const base_speed = 100
 const base_acceleration = 400
 const base_friction = 1000
 var speed_modifier =1
+
+func _ready():
+	state_machine = $AnimationTree.get("parameters/playback")
 
 func _process(delta):
 #		aim()
@@ -29,8 +32,16 @@ func move(delta):
 	var speed = base_speed * speed_modifier
 	if direction != Vector2.ZERO:
 		velocity = velocity.move_toward(speed * direction, base_acceleration * delta)
+		if state_machine: 
+			state_machine.travel("Walk Side")
+			print("walk")
+			if velocity.x<0: 
+				$Sprite.scale.x = -1
+			else:
+				$Sprite.scale.x = 1
 	else:
 		velocity = velocity.move_toward(Vector2.ZERO, base_friction * delta)
+		if state_machine: state_machine.travel("Idle")
 		
 	velocity = move_and_slide(velocity)
 	

@@ -17,9 +17,7 @@ step = 0.4
 radius = 5.69515
 height = 4.76167
 
-[node name="Warrior" type="KinematicBody2D" groups=[
-"Hero",
-]]
+[node name="Warrior" type="KinematicBody2D" groups=["Hero"]]
 position = Vector2( 0, -8 )
 scale = Vector2( 2, 2 )
 script = ExtResource( 1 )

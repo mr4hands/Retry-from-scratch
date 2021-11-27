@@ -7,7 +7,7 @@ var 	velocity = Vector2.ZERO
 var is_moving = false
 var direction = Vector2.ZERO
 var is_chasing = false
-onready var obj = get_parent().get_node("Warrior")
+onready var obj = get_parent().get_node("Hero")
 
 
 

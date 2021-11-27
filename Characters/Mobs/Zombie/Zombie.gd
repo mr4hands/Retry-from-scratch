@@ -4,7 +4,7 @@ var speed = 50
 var acceleration = 10
 var friction = 10
 
-onready var obj = get_parent().get_node("Warrior")
+onready var obj = get_parent().get_node("Hero")
 var _delta
 var velocity = Vector2()
 
