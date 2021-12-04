@@ -1,0 +1,7 @@
+[gd_scene load_steps=2 format=2]
+
+[ext_resource path="res://Characters/Heros/Samurai/Art/Area.png" type="Texture" id=1]
+
+[node name="Crosshair" type="Sprite"]
+scale = Vector2( 0.111002, 0.111002 )
+texture = ExtResource( 1 )

@@ -3,19 +3,21 @@ class_name KinematicCharacter2D
 
 var state_machine
 var velocity = Vector2.ZERO
-const base_speed = 100
-const base_acceleration = 400
-const base_friction = 1000
+export var base_speed = 50
+export var base_acceleration = 1000
+export var base_friction = 1000
 var speed_modifier =1
+var direction = Vector2.ZERO
 
 func _ready():
 	state_machine = $AnimationTree.get("parameters/playback")
 
 func _process(delta):
-#		aim()
+#	aim()
 	pass
 		
 func _physics_process(delta):
+	
 	move(delta)
 
 	
@@ -27,14 +29,12 @@ func get_direction(move_up="move_up",move_right="move_right",move_down="move_dow
 	)
 
 func move(delta):
-	var direction = Vector2.ZERO
 	direction = get_direction()
 	var speed = base_speed * speed_modifier
 	if direction != Vector2.ZERO:
 		velocity = velocity.move_toward(speed * direction, base_acceleration * delta)
 		if state_machine: 
 			state_machine.travel("Walk Side")
-			print("walk")
 			if velocity.x<0: 
 				$Sprite.scale.x = -1
 			else:
@@ -49,7 +49,13 @@ func aim():
 	var mouse_position = get_global_mouse_position()
 	look_at(mouse_position)
 	var angle = get_angle_to(mouse_position)
-	rotate(angle)
+	
+func _unhandled_input(event):
+	if event.is_action_pressed("1st_attack"):
+		_play_attack_animation(1)
+		
+func _play_attack_animation(attack):
+	print("attack")
+	pass
 	
 
-	
