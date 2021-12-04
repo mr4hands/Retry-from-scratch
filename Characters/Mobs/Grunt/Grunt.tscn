@@ -1,26 +1,49 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Characters/Mobs/Grunt/Grunt.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Mobs/Grunt/Art/Grunt.png" type="Texture" id=2]
 [ext_resource path="res://Utils/Hitbox.tscn" type="PackedScene" id=3]
+[ext_resource path="res://Utils/HealthDisplay.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Utils/Hurtbox.tscn" type="PackedScene" id=5]
 
 [sub_resource type="RectangleShape2D" id=1]
-extents = Vector2( 7.00309, 2.4933 )
 
 [sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 7.00309, 2.4933 )
 
-[node name="Grunt" type="KinematicBody2D"]
+[sub_resource type="RectangleShape2D" id=3]
+extents = Vector2( 7.32297, 7.16108 )
+
+[node name="Grunt" type="KinematicBody2D" groups=[
+"Mob",
+]]
+collision_mask = 3
 script = ExtResource( 1 )
+max_health = 15
 
 [node name="Sprite" type="Sprite" parent="."]
 texture = ExtResource( 2 )
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2( 0, 3.5 )
-shape = SubResource( 1 )
-
 [node name="Hitbox" parent="." instance=ExtResource( 3 )]
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Hitbox"]
 position = Vector2( 0, -1 )
+shape = SubResource( 1 )
+
+[node name="HealthDisplay" parent="." instance=ExtResource( 4 )]
+visible = false
+position = Vector2( 5.96046e-08, -9.0506 )
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2( 0, 3.5 )
 shape = SubResource( 2 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 5 )]
+collision_mask = 2
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+position = Vector2( 0, -1.0157 )
+shape = SubResource( 3 )
+
+[connection signal="on_got_hit" from="Hurtbox" to="." method="_on_Hurtbox_on_got_hit"]

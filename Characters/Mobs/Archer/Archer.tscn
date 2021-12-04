@@ -1,17 +1,23 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Characters/Mobs/Archer/Archer.gd" type="Script" id=1]
 [ext_resource path="res://Characters/Mobs/Archer/Art/Archer.png" type="Texture" id=2]
 [ext_resource path="res://Utils/AwarenessZone.gd" type="Script" id=3]
 [ext_resource path="res://Characters/Mobs/Archer/Projectile.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Utils/HealthDisplay.tscn" type="PackedScene" id=5]
+[ext_resource path="res://Utils/Hurtbox.tscn" type="PackedScene" id=6]
 
 [sub_resource type="RectangleShape2D" id=1]
 
 [sub_resource type="CircleShape2D" id=2]
 radius = 323.373
 
-[node name="Archer" type="KinematicBody2D"]
+[node name="Archer" type="KinematicBody2D" groups=[
+"Mob",
+]]
+collision_mask = 3
 script = ExtResource( 1 )
+max_health = 20
 Arrow = ExtResource( 4 )
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
@@ -33,6 +39,17 @@ shape = SubResource( 2 )
 position = Vector2( 20.7603, 0 )
 rotation = 0.000849063
 
+[node name="HealthDisplay" parent="." instance=ExtResource( 5 )]
+position = Vector2( 0, -12.8948 )
+
+[node name="Hurtbox" parent="." instance=ExtResource( 6 )]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Hurtbox"]
+rotation = 0.785398
+scale = Vector2( 1, 1 )
+shape = SubResource( 1 )
+
 [connection signal="body_entered" from="AwarenessZone" to="." method="_on_AwarenessZone_body_entered"]
 [connection signal="body_exited" from="AwarenessZone" to="." method="_on_AwarenessZone_body_exited"]
 [connection signal="timeout" from="ShotTimer" to="." method="_on_ShotTimer_timeout"]
+[connection signal="on_got_hit" from="Hurtbox" to="." method="_on_Hurtbox_on_got_hit"]

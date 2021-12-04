@@ -1,23 +1,28 @@
-extends KinematicBody2D
+extends KinematicMob2D
 
 onready var obj = get_parent().get_node("Hero")
 export (PackedScene) var Arrow
 onready var shot_timer = $ShotTimer
 
-var speed = 100
-var acceleration = 300
-var friction = 300
 
+var 	friction = 300
 var velocity = Vector2.ZERO
 var _delta
 var is_chasing = true
 
-var attack_stats = {
+
+func _ready():
+	speed = 50
+	acceleration = 300
+
+	max_health = 20
+	current_health = max_health
+	attack_stats = {
 	"damage" : 5,
 	"type" : "physical"
 }
-
-
+	
+	
 func _physics_process(delta):
 	_delta = delta
 	if is_chasing == true:

@@ -1,8 +1,5 @@
-extends KinematicBody2D
+extends KinematicMob2D
 
-
-var speed = 300
-var acceleration = 5000
 var 	velocity = Vector2.ZERO
 var is_moving = false
 var direction = Vector2.ZERO
@@ -10,13 +7,15 @@ var is_chasing = false
 onready var obj = get_parent().get_node("Hero")
 
 
-
 onready var screensize = get_viewport_rect().size
-	
-var _delta
 
+func _ready():
+	speed = 80
+	acceleration = 5000
+	max_health = 10
+	
+	
 func _physics_process(delta):
-	_delta = delta
 	if is_moving:
 		if is_chasing:
 			direction = (obj.global_position - global_position).normalized()
@@ -39,15 +38,11 @@ func _on_MoveTimer_timeout():
 	is_moving = !is_moving
 
 
-
-
 func _on_AwarenessZone_body_entered(body):
 	if body.is_in_group("Hero"):
 		is_chasing = true
-
-
-
+		
+		
 func _on_AwarenessZone_body_exited(body):
 	if body.is_in_group("Hero"):
 		is_chasing = false
-

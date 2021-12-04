@@ -1,0 +1,14 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://KinematicMob2D.gd" type="Script" id=1]
+[ext_resource path="res://Utils/HealthDisplay.tscn" type="PackedScene" id=2]
+[ext_resource path="res://Utils/Hurtbox.tscn" type="PackedScene" id=3]
+
+[node name="KinematicMob2D" type="KinematicBody2D"]
+script = ExtResource( 1 )
+
+[node name="HealthDisplay" parent="." instance=ExtResource( 2 )]
+
+[node name="Hurtbox" parent="." instance=ExtResource( 3 )]
+
+[connection signal="on_got_hit" from="Hurtbox" to="." method="_on_Hurtbox_on_got_hit"]
