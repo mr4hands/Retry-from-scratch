@@ -32,9 +32,9 @@ func _play_attack_animation(attack):
 	
 func aim_crosshair():
 	var aim_to = direction.normalized() * 100
-	$Crosshair.position = aim_to
+#	$Crosshair.position = aim_to
 	var angle = get_angle_to(aim_to)
-	$Crosshair.look_at(aim_to *2)
+#	$Crosshair.look_at(aim_to *2)
 	$AwarenessZone.look_at(get_global_mouse_position())
 
 
