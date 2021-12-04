@@ -8,9 +8,12 @@ export var base_acceleration = 1000
 export var base_friction = 1000
 var speed_modifier =1
 var direction = Vector2.ZERO
+onready var animationTree = $AnimationTree
+onready var animationState = animationTree.get("parameters/playback")
 
-func _ready():
-	state_machine = $AnimationTree.get("parameters/playback")
+
+#func _ready():
+#	state_machine = $AnimationTree.get("paramapters/playback")
 
 func _process(delta):
 #	aim()
@@ -32,16 +35,22 @@ func move(delta):
 	direction = get_direction()
 	var speed = base_speed * speed_modifier
 	if direction != Vector2.ZERO:
+		animationTree.set("parameters/Idle Blend/blend_position", direction)
+		animationTree.set("parameters/Walk Blend/blend_position", direction)
+		animationTree.set("parameters/Attack Blend/blend_position", direction)
+		animationState.travel("Walk Blend")
 		velocity = velocity.move_toward(speed * direction, base_acceleration * delta)
-		if state_machine: 
-			state_machine.travel("Walk Side")
-			if velocity.x<0: 
-				$Sprite.scale.x = -1
-			else:
-				$Sprite.scale.x = 1
+
+#		if state_machine: 
+#			state_machine.travel("Walk Side")
+#			if velocity.x<0: 
+#				$Sprite.scale.x = -1
+#			else:
+#				$Sprite.scale.x = 1
 	else:
+		animationState.travel("Idle Blend")
 		velocity = velocity.move_toward(Vector2.ZERO, base_friction * delta)
-		if state_machine: state_machine.travel("Idle")
+#		if state_machine: state_machine.travel("Idle")
 		
 	velocity = move_and_slide(velocity)
 	
