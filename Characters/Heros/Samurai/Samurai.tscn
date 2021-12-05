@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=2]
+[gd_scene load_steps=41 format=2]
 
 [ext_resource path="res://Characters/Heros/Samurai/Samurai.gd" type="Script" id=1]
 [ext_resource path="res://Utils/AwarenessZone.tscn" type="PackedScene" id=2]
@@ -15,30 +15,100 @@ extents = Vector2( 10, 16.5 )
 radius = 5.69515
 height = 4.76167
 
-[sub_resource type="AnimationNodeAnimation" id=4]
-animation = "Idle"
+[sub_resource type="AnimationNodeAnimation" id=21]
+animation = "Attack Left"
 
-[sub_resource type="AnimationNodeAnimation" id=5]
-animation = "Walk Side"
+[sub_resource type="AnimationNodeAnimation" id=22]
+animation = "Attack Down"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=6]
+[sub_resource type="AnimationNodeAnimation" id=23]
+animation = "Attack Up"
 
-[sub_resource type="AnimationNodeStateMachineTransition" id=7]
+[sub_resource type="AnimationNodeAnimation" id=24]
+animation = "Attack Right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=25]
+blend_point_0/node = SubResource( 21 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 22 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 23 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 24 )
+blend_point_3/pos = Vector2( 1, 0 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id=26]
+animation = "Idle Left"
+
+[sub_resource type="AnimationNodeAnimation" id=28]
+animation = "Idle Left"
+
+[sub_resource type="AnimationNodeAnimation" id=42]
+animation = "Idle Right"
+
+[sub_resource type="AnimationNodeAnimation" id=43]
+animation = "Idle Right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=30]
+blend_point_0/node = SubResource( 26 )
+blend_point_0/pos = Vector2( -1, 0.1 )
+blend_point_1/node = SubResource( 28 )
+blend_point_1/pos = Vector2( -0.1, -1 )
+blend_point_2/node = SubResource( 42 )
+blend_point_2/pos = Vector2( 0.1, 1 )
+blend_point_3/node = SubResource( 43 )
+blend_point_3/pos = Vector2( 1, -0.1 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeAnimation" id=31]
+animation = "Walk Left"
+
+[sub_resource type="AnimationNodeAnimation" id=32]
+animation = "Walk Down"
+
+[sub_resource type="AnimationNodeAnimation" id=33]
+animation = "Walk Up"
+
+[sub_resource type="AnimationNodeAnimation" id=34]
+animation = "Walk Right"
+
+[sub_resource type="AnimationNodeBlendSpace2D" id=35]
+blend_point_0/node = SubResource( 31 )
+blend_point_0/pos = Vector2( -1, 0 )
+blend_point_1/node = SubResource( 32 )
+blend_point_1/pos = Vector2( 0, 1 )
+blend_point_2/node = SubResource( 33 )
+blend_point_2/pos = Vector2( 0, -1 )
+blend_point_3/node = SubResource( 34 )
+blend_point_3/pos = Vector2( 1, 0 )
+blend_mode = 1
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=36]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=37]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=38]
+
+[sub_resource type="AnimationNodeStateMachineTransition" id=39]
 
 [sub_resource type="AnimationNodeStateMachine" id=8]
-states/Idle/node = SubResource( 4 )
-states/Idle/position = Vector2( 155, 79.6667 )
-"states/Walk Side/node" = SubResource( 5 )
-"states/Walk Side/position" = Vector2( 506.333, 241 )
-transitions = [ "Idle", "Walk Side", SubResource( 6 ), "Walk Side", "Idle", SubResource( 7 ) ]
+states/Attack/node = SubResource( 25 )
+states/Attack/position = Vector2( 211.297, 236.396 )
+states/Idle/node = SubResource( 30 )
+states/Idle/position = Vector2( 209.963, 120.914 )
+states/Walk/node = SubResource( 35 )
+states/Walk/position = Vector2( 418.63, 120.84 )
+transitions = [ "Idle", "Walk", SubResource( 36 ), "Walk", "Idle", SubResource( 37 ), "Idle", "Attack", SubResource( 38 ), "Attack", "Idle", SubResource( 39 ) ]
 start_node = "Idle"
-graph_offset = Vector2( -194.37, 38.0625 )
+graph_offset = Vector2( -616.615, 38.0625 )
 
 [sub_resource type="AnimationNodeStateMachinePlayback" id=9]
 
 [sub_resource type="Animation" id=10]
 resource_name = "Attack Down"
 length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -51,10 +121,25 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 24, 25, 26, 27, 28 ]
 }
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "attack_animation_finished"
+} ]
+}
 
 [sub_resource type="Animation" id=11]
 resource_name = "Attack Left"
 length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -79,10 +164,25 @@ tracks/1/keys = {
 "update": 1,
 "values": [ true ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "attack_animation_finished"
+} ]
+}
 
 [sub_resource type="Animation" id=12]
 resource_name = "Attack Right"
 length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -107,10 +207,25 @@ tracks/1/keys = {
 "update": 1,
 "values": [ false ]
 }
+tracks/2/type = "method"
+tracks/2/path = NodePath("..")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "attack_animation_finished"
+} ]
+}
 
 [sub_resource type="Animation" id=13]
 resource_name = "Attack Up"
 length = 0.5
+loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath(".:frame")
 tracks/0/interp = 1
@@ -122,6 +237,20 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 34, 35, 36, 37, 38 ]
+}
+tracks/1/type = "method"
+tracks/1/path = NodePath("..")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0.5 ),
+"transitions": PoolRealArray( 1 ),
+"values": [ {
+"args": [  ],
+"method": "attack_animation_finished"
+} ]
 }
 
 [sub_resource type="Animation" id=14]
@@ -167,6 +296,18 @@ tracks/0/keys = {
 "transitions": PoolRealArray( 1, 1, 1, 1 ),
 "update": 1,
 "values": [ 0, 1, 2, 3 ]
+}
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
 }
 
 [sub_resource type="Animation" id=16]
@@ -257,6 +398,18 @@ tracks/0/keys = {
 "update": 1,
 "values": [ 4, 5, 6, 7, 8, 9, 10, 11 ]
 }
+tracks/1/type = "value"
+tracks/1/path = NodePath(".:flip_h")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/keys = {
+"times": PoolRealArray( 0 ),
+"transitions": PoolRealArray( 1 ),
+"update": 1,
+"values": [ false ]
+}
 
 [sub_resource type="Animation" id=20]
 resource_name = "Walk Up"
@@ -275,9 +428,7 @@ tracks/0/keys = {
 "values": [ 18, 19, 20, 21, 22, 23 ]
 }
 
-[node name="Samurai" type="KinematicBody2D" groups=[
-"Hero",
-]]
+[node name="Samurai" type="KinematicBody2D" groups=["Hero"]]
 position = Vector2( 434, 252 )
 collision_layer = 2
 collision_mask = 13
@@ -311,6 +462,9 @@ tree_root = SubResource( 8 )
 anim_player = NodePath("../AnimationPlayer")
 active = true
 parameters/playback = SubResource( 9 )
+parameters/Attack/blend_position = Vector2( 0, 0 )
+parameters/Idle/blend_position = Vector2( 0, 0 )
+parameters/Walk/blend_position = Vector2( 0, 0 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../Sprite")

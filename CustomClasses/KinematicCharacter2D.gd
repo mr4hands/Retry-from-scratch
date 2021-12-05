@@ -1,6 +1,12 @@
 extends KinematicBody2D
 class_name KinematicCharacter2D
 
+enum {
+	MOVE,
+	ATTACK
+}
+
+var state = MOVE
 var state_machine
 var velocity = Vector2.ZERO
 export var base_speed = 50
@@ -20,8 +26,11 @@ func _process(delta):
 	pass
 		
 func _physics_process(delta):
-	
-	move(delta)
+	match state:
+		MOVE:
+			move(delta)
+		ATTACK:
+			attack_state(delta)
 
 	
 	
@@ -35,10 +44,10 @@ func move(delta):
 	direction = get_direction()
 	var speed = base_speed * speed_modifier
 	if direction != Vector2.ZERO:
-		animationTree.set("parameters/Idle Blend/blend_position", direction)
-		animationTree.set("parameters/Walk Blend/blend_position", direction)
-		animationTree.set("parameters/Attack Blend/blend_position", direction)
-		animationState.travel("Walk Blend")
+		animationTree.set("parameters/Idle/blend_position", direction)
+		animationTree.set("parameters/Walk/blend_position", direction)
+		animationTree.set("parameters/Attack/blend_position", direction)
+		animationState.travel("Walk")
 		velocity = velocity.move_toward(speed * direction, base_acceleration * delta)
 
 #		if state_machine: 
@@ -48,7 +57,7 @@ func move(delta):
 #			else:
 #				$Sprite.scale.x = 1
 	else:
-		animationState.travel("Idle Blend")
+		animationState.travel("Idle")
 		velocity = velocity.move_toward(Vector2.ZERO, base_friction * delta)
 #		if state_machine: state_machine.travel("Idle")
 		
@@ -61,10 +70,18 @@ func aim():
 	
 func _unhandled_input(event):
 	if event.is_action_pressed("1st_attack"):
+		state = ATTACK
+		animationState.travel("Attack")
 		_play_attack_animation(1)
 		
+		
+
+func attack_state(delta):
+	_play_attack_animation(1)
+	
 func _play_attack_animation(attack):
 	print("attack")
-	pass
 	
+func attack_animation_finished():
+	state = MOVE
 
